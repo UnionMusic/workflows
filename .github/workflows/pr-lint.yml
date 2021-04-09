@@ -1,0 +1,17 @@
+name: PR lint
+
+on:
+  pull_request:
+    types: ['opened', 'edited', 'reopened', 'synchronize']
+
+jobs:
+  pr-lint:
+    if: "!github.actor == 'dependabot'"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: seferov/pr-lint-action@master
+        with:
+          title-regex: '^\[DRM-\d*\](\ )'
+          title-regex-flags: 'g' # optional
+          auto-close-message: 'Closing this pull request since the title does not match %pattern% pattern. Please fix the title and re-open the pull request.'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
